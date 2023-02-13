@@ -127,7 +127,12 @@ static void bledfu_control_wr_authorize_cb(uint16_t conn_hdl, BLECharacteristic*
        *
        * TODO may force bonded only for security reason
        */
-      peer_data_t* peer_data = (peer_data_t*)(0x20007F80UL);
+
+      // Skip saving peer data.
+      // When we boot into DFU, we don't want to carry over any data from the 
+      // current connection (we treat it as an entirely new connection).
+
+      /*peer_data_t* peer_data = (peer_data_t*)(0x20007F80UL);
       varclr(peer_data);
 
       // Get CCCD
@@ -149,7 +154,7 @@ static void bledfu_control_wr_authorize_cb(uint16_t conn_hdl, BLECharacteristic*
       }
 
       // Calculate crc
-      peer_data->crc16 = crc16((uint8_t*) peer_data, offsetof(peer_data_t, crc16));
+      peer_data->crc16 = crc16((uint8_t*) peer_data, offsetof(peer_data_t, crc16));*/
 
       // Initiate DFU Sequence and reboot into DFU OTA mode
       Bluefruit.Advertising.restartOnDisconnect(false);
