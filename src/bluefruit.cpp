@@ -227,24 +227,30 @@ void AdafruitBluefruit::configPrphBandwidth(uint8_t bw)
   /* Note default value from SoftDevice are
    * MTU = 23, Event Len = 3, HVN QSize = 1, WrCMD QSize =1
    */
+
+  // Changing HVN QSize to 4 so that we can send 4 notifications
+  // per connection interval
+  // -  can't find source, but adafruit employee mentioned
+  // -  nrf51822 can go up to HVN QSize = 6
+  // -  so if we need to we can probably increase
   switch (bw)
   {
     case BANDWIDTH_LOW:
-      configPrphConn(BLE_GATT_ATT_MTU_DEFAULT, BLE_GAP_EVENT_LENGTH_MIN, BLE_GATTS_HVN_TX_QUEUE_SIZE_DEFAULT, BLE_GATTC_WRITE_CMD_TX_QUEUE_SIZE_DEFAULT);
+      configPrphConn(BLE_GATT_ATT_MTU_DEFAULT, BLE_GAP_EVENT_LENGTH_MIN, 4, BLE_GATTC_WRITE_CMD_TX_QUEUE_SIZE_DEFAULT);
     break;
 
     // TODO Bandwidth auto
     case BANDWIDTH_AUTO:
     case BANDWIDTH_NORMAL:
-      configPrphConn(BLE_GATT_ATT_MTU_DEFAULT, BLE_GAP_EVENT_LENGTH_DEFAULT, BLE_GATTS_HVN_TX_QUEUE_SIZE_DEFAULT, BLE_GATTC_WRITE_CMD_TX_QUEUE_SIZE_DEFAULT);
+      configPrphConn(BLE_GATT_ATT_MTU_DEFAULT, BLE_GAP_EVENT_LENGTH_DEFAULT, 4, BLE_GATTC_WRITE_CMD_TX_QUEUE_SIZE_DEFAULT);
     break;
 
     case BANDWIDTH_HIGH:
-      configPrphConn(128, 6, 2, BLE_GATTC_WRITE_CMD_TX_QUEUE_SIZE_DEFAULT);
+      configPrphConn(128, 6, 4, BLE_GATTC_WRITE_CMD_TX_QUEUE_SIZE_DEFAULT);
     break;
 
     case BANDWIDTH_MAX:
-      configPrphConn(247, 100, 3, BLE_GATTC_WRITE_CMD_TX_QUEUE_SIZE_DEFAULT);
+      configPrphConn(247, 100, 4, BLE_GATTC_WRITE_CMD_TX_QUEUE_SIZE_DEFAULT);
     break;
 
     default: break;
