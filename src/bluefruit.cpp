@@ -160,12 +160,12 @@ AdafruitBluefruit::AdafruitBluefruit(void)
 
   _sd_cfg.prph.mtu_max     = BLE_GATT_ATT_MTU_DEFAULT;
   _sd_cfg.prph.event_len   = BLE_GAP_EVENT_LENGTH_DEFAULT;
-  _sd_cfg.prph.hvn_qsize   = BLE_GATTS_HVN_TX_QUEUE_SIZE_DEFAULT;
+  _sd_cfg.prph.hvn_qsize   = 4;
   _sd_cfg.prph.wrcmd_qsize = BLE_GATTC_WRITE_CMD_TX_QUEUE_SIZE_DEFAULT;
 
   _sd_cfg.central.mtu_max     = BLE_GATT_ATT_MTU_DEFAULT;
   _sd_cfg.central.event_len   = BLE_GAP_EVENT_LENGTH_DEFAULT;
-  _sd_cfg.central.hvn_qsize   = BLE_GATTS_HVN_TX_QUEUE_SIZE_DEFAULT;
+  _sd_cfg.central.hvn_qsize   = 4;
   _sd_cfg.central.wrcmd_qsize = BLE_GATTC_WRITE_CMD_TX_QUEUE_SIZE_DEFAULT;
 
   _prph_count    = 0;
@@ -265,21 +265,21 @@ void AdafruitBluefruit::configCentralBandwidth(uint8_t bw)
   switch (bw)
   {
     case BANDWIDTH_LOW:
-      configCentralConn(BLE_GATT_ATT_MTU_DEFAULT, BLE_GAP_EVENT_LENGTH_MIN, BLE_GATTS_HVN_TX_QUEUE_SIZE_DEFAULT, BLE_GATTC_WRITE_CMD_TX_QUEUE_SIZE_DEFAULT);
+      configCentralConn(BLE_GATT_ATT_MTU_DEFAULT, BLE_GAP_EVENT_LENGTH_MIN, 4, BLE_GATTC_WRITE_CMD_TX_QUEUE_SIZE_DEFAULT);
     break;
 
     // TODO Bandwidth auto
     case BANDWIDTH_AUTO:
     case BANDWIDTH_NORMAL:
-      configCentralConn(BLE_GATT_ATT_MTU_DEFAULT, BLE_GAP_EVENT_LENGTH_DEFAULT, BLE_GATTS_HVN_TX_QUEUE_SIZE_DEFAULT, BLE_GATTC_WRITE_CMD_TX_QUEUE_SIZE_DEFAULT);
+      configCentralConn(BLE_GATT_ATT_MTU_DEFAULT, BLE_GAP_EVENT_LENGTH_DEFAULT, 4, BLE_GATTC_WRITE_CMD_TX_QUEUE_SIZE_DEFAULT);
     break;
 
     case BANDWIDTH_HIGH:
-      configCentralConn(128, 6, 2, BLE_GATTC_WRITE_CMD_TX_QUEUE_SIZE_DEFAULT);
+      configCentralConn(128, 6, 4, BLE_GATTC_WRITE_CMD_TX_QUEUE_SIZE_DEFAULT);
     break;
 
     case BANDWIDTH_MAX:
-      configCentralConn(247, 6, 3, BLE_GATTC_WRITE_CMD_TX_QUEUE_SIZE_DEFAULT);
+      configCentralConn(247, 6, 4, BLE_GATTC_WRITE_CMD_TX_QUEUE_SIZE_DEFAULT);
     break;
 
     default: break;
